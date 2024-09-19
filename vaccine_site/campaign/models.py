@@ -12,7 +12,7 @@ class Campaign(models.Model):
     vaccine = models.ForeignKey(Vaccine, on_delete=models.CASCADE)
     start_date = models.DateField(null=True)
     end_date = models.DateField(null=True)
-    agent = models.ManyToManyField(User, blank=True)
+    agents = models.ManyToManyField(User, blank=True)
     
     def __str__(self):
         return str(self.vaccine.name).upper() + " | " + str(self.center.name).upper()
