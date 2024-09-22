@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect, Http404
 from django.urls import reverse
 from vaccine.forms import VaccineForm
 from django.core.paginator import Paginator
+from django.contrib import messages
 
 
 class VaccineList(View):
@@ -47,7 +48,9 @@ class CreateVaccine(View):
         form = self.form_class(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, "Vaccine Created Successfully")
             return HttpResponseRedirect(reverse("vaccine:list"))
+        messages.error(request, "Please enter valid data")
         return render(request, self.template_name, {"form": form})
 
 
@@ -67,7 +70,9 @@ class UpdateVaccine(View):
         form = self.form_class(request.POST, instance=vaccine)
         if form.is_valid():
             form.save()
+            messages.success(request, "Vaccine Updated Successfully")
             return HttpResponseRedirect(reverse("vaccine:detail", kwargs={"id": vaccine.id}))
+        messages.error(request, "Please enter valid data")
         return render(request, self.template_name, {"form": form})
     
     
@@ -84,4 +89,5 @@ class DeleteVaccine(View):
     def post(self, request, id):
         vaccine = get_object_or_404(Vaccine, id=id)
         vaccine.delete()
+        messages.success(request, "Vaccine Deleted Successfully")
         return HttpResponseRedirect(reverse("vaccine:list"))
