@@ -11,7 +11,7 @@ from django.contrib.auth import get_user_model
 from user.utils import EmailVerificationTokenGenerator
 from django.utils.http import urlsafe_base64_decode
 from django.utils.encoding import force_str
-
+from django.contrib.auth.decorators import login_required
 
 User = get_user_model()
 
@@ -53,12 +53,14 @@ def login(request):
     return render(request, "user/login.html", context)
 
 
+@login_required
 def logout(request):
     auth_logout(request)
     messages.info(request, "Logged out successfully")
     return HttpResponseRedirect(reverse("user:login"))
 
 
+@login_required
 def change_password(request):
     if request.method == "POST":
         form = ChangePasswordForm(request.user, request.POST)
@@ -76,6 +78,7 @@ def change_password(request):
     return render(request, "user/change-password.html", context)
 
 
+@login_required
 def profile_view(request):
     context = {
         "user": request.user
@@ -83,6 +86,7 @@ def profile_view(request):
     return render(request, "user/profile-view.html", context)
 
 
+@login_required
 def profile_update(request):
     if request.method == "POST":
         form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user)
@@ -99,6 +103,7 @@ def profile_update(request):
     return render(request, "user/profile-update.html", context)
 
 
+@login_required
 def email_verification_request(request):
     if not request.user.is_email_verified:
         send_email_verification(request, request.user.id)
@@ -106,6 +111,7 @@ def email_verification_request(request):
     return HttpResponseForbidden("Email already verified")
 
 
+@login_required
 def email_verifier(request, uidb64, token):
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))

@@ -8,8 +8,11 @@ from django.views import generic
 from django.core.paginator import Paginator
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 
+@login_required
 def center_list(request):
     objects = Center.objects.all().order_by("name")
     paginator = Paginator(objects, 2)
@@ -20,6 +23,8 @@ def center_list(request):
     }
     return render(request, "center/center-list.html", context)
 
+
+@login_required
 def center_detail(request, id):
     center = Center.objects.get(id=id)
     context = {
@@ -27,6 +32,9 @@ def center_detail(request, id):
     }
     return render(request, "center/center-detail.html", context)
 
+
+@login_required
+@permission_required("center.add_center", raise_exception=True)
 def create_center(request):
     if request.method == "POST":
         form = CenterForm(request.POST)
@@ -42,6 +50,9 @@ def create_center(request):
     }
     return render(request, "center/create-center.html", context)
 
+
+@login_required
+@permission_required("center.change_center", raise_exception=True)
 def update_center(request, id):
     try:
         center = Center.objects.get(id=id)
@@ -62,6 +73,9 @@ def update_center(request, id):
     }
     return render(request, "center/update-center.html", context)
 
+
+@login_required
+@permission_required("center.delete_center", raise_exception=True)
 def delete_center(request, id):
     try:
         center = Center.objects.get(id=id)
@@ -78,7 +92,8 @@ def delete_center(request, id):
     }
     return render(request, "center/delete-center.html", context)
 
-class StorageList(generic.ListView):
+
+class StorageList(LoginRequiredMixin, generic.ListView):
     queryset = Storage.objects.all()
     template_name = "storage/storage-list.html"
     ordering = ["id"]
@@ -93,7 +108,7 @@ class StorageList(generic.ListView):
         return context
 
     
-class StorageDetail(generic.DetailView):
+class StorageDetail(LoginRequiredMixin, generic.DetailView):
     model = Storage
     template_name = "storage/storage-detail.html"
     
@@ -103,11 +118,12 @@ class StorageDetail(generic.DetailView):
         return context
     
 
-class CreateStorage(SuccessMessageMixin, generic.CreateView):
+class CreateStorage(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, generic.CreateView):
     model = Storage
     form_class = StorageForm
     template_name = "storage/create-storage.html"
     success_message = "Storage Created Successfully"
+    permission_required = ("center.add_storage",)
     
     def get_form_kwargs(self) -> dict[str, Any]:
         kwargs = super().get_form_kwargs()
@@ -123,11 +139,12 @@ class CreateStorage(SuccessMessageMixin, generic.CreateView):
         return reverse("center:storage-list", kwargs={"center_id": self.kwargs["center_id"]})
     
 
-class UpdateStorage(SuccessMessageMixin, generic.UpdateView):
+class UpdateStorage(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, generic.UpdateView):
     model = Storage
     form_class = StorageForm
     template_name = "storage/update-storage.html"
     success_message = "Storage Updated Successfully"
+    permission_required = ("center.change_storage",)
     
     def get_form_kwargs(self) -> dict[str, Any]:
         kwargs = super().get_form_kwargs()
@@ -138,10 +155,11 @@ class UpdateStorage(SuccessMessageMixin, generic.UpdateView):
         return reverse("center:storage-list", kwargs={"center_id": self.get_object().center.id})
 
 
-class DeleteStorage(SuccessMessageMixin, generic.DeleteView):
+class DeleteStorage(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, generic.DeleteView):
     model = Storage
     template_name = "storage/delete-storage.html"
     success_message = "Storage Deleted Successfully"
+    permission_required = ("center.delete_storage",)
     
     def get_success_url(self):
         return reverse("center:storage-list", kwargs={"center_id": self.get_object().center.id})
