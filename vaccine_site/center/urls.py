@@ -10,8 +10,8 @@ urlpatterns = [
     path("update/<int:id>", views.update_center, name="update"),
     path("delete/<int:id>",views.delete_center, name="delete"),
     path("<int:center_id>/storage/", views.StorageList.as_view(), name="storage-list"),
-    path("storage/<int:pk>/", views.StorageDetail.as_view(), name="storage-detail"),
-    path("<int:center_id>/storage/create/", views.CreateStorage.as_view(), name="create-storage"),
-    path("storage/update/<int:pk>/", views.UpdateStorage.as_view(), name="update-storage"),
-    path("storage/delete/<int:pk>/", views.DeleteStorage.as_view(), name="delete-storage"),
+    path("storage/<int:pk>/", views.StorageDetailView.as_view(), name="storage-detail"),
+    path("<int:center_id>/storage/create/", views.CreateStorageView.as_view(), name="create-storage"),
+    path("storage/update/<int:pk>/", views.UpdateStorageView.as_view(), name="update-storage"),
+    path("storage/delete/<int:pk>/", views.DeleteStorageView.as_view(), name="delete-storage"),
 ]

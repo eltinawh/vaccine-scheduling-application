@@ -108,7 +108,7 @@ class StorageList(LoginRequiredMixin, generic.ListView):
         return context
 
     
-class StorageDetail(LoginRequiredMixin, generic.DetailView):
+class StorageDetailView(LoginRequiredMixin, generic.DetailView):
     model = Storage
     template_name = "storage/storage-detail.html"
     
@@ -118,7 +118,7 @@ class StorageDetail(LoginRequiredMixin, generic.DetailView):
         return context
     
 
-class CreateStorage(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, generic.CreateView):
+class CreateStorageView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, generic.CreateView):
     model = Storage
     form_class = StorageForm
     template_name = "storage/create-storage.html"
@@ -139,7 +139,7 @@ class CreateStorage(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageM
         return reverse("center:storage-list", kwargs={"center_id": self.kwargs["center_id"]})
     
 
-class UpdateStorage(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, generic.UpdateView):
+class UpdateStorageView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, generic.UpdateView):
     model = Storage
     form_class = StorageForm
     template_name = "storage/update-storage.html"
@@ -155,7 +155,7 @@ class UpdateStorage(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageM
         return reverse("center:storage-list", kwargs={"center_id": self.get_object().center.id})
 
 
-class DeleteStorage(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, generic.DeleteView):
+class DeleteStorageView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, generic.DeleteView):
     model = Storage
     template_name = "storage/delete-storage.html"
     success_message = "Storage Deleted Successfully"
