@@ -45,15 +45,19 @@
             <a class="nav-link" aria-current="page" href="/"><i class="fas fa-home"></i>
               Home </a>
           </li>
-
-
-
+        {% if user.is_authenticated %}
+        <li class="nav-item">
+          {{ user.email }}
+          <a class="nav-link" href="/accounts/logout/"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </li>
+        {% else %}
           <li class="nav-item">
             <a class="nav-link" href="/accounts/login/"><i class="fas fa-sign-in-alt"></i> Login</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/accounts/signup/"><i class="fas fa-plus"></i> Signup</a>
           </li>
+        {% endif %}
         </ul>
       </div>
     </div>
