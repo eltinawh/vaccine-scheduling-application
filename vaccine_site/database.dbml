@@ -1,0 +1,111 @@
+Project vaccine_scheduling_application {
+  database_type: 'SQLite'
+  note: 'All the tables with corresponding field types and the relationship between them for the vaccine scheduling application.'
+}
+
+Table vaccine.vaccine {
+  id int [primary key]
+  name varchar(32)
+  description text(1024)
+  number_of_doses int [default: 1]
+  interval int [default: 0, note: 'between consecutive doses in days']
+  storate_temperature int [null, note: 'in Celcius']
+  minimum_age int [default: 0]
+}
+
+Table vaccine.center {
+  id int [primary key]
+  name varchar(124)
+  address text(500)
+}
+
+Table vaccine.storage {
+  id int [primary key]
+  center_id int
+  vaccine_id int
+  total_quantity int [default: 0]
+  booked_quantity int [default: 0, Note: 'validation: booked_quantity <= total_quantity']
+}
+
+Table vaccine.campaign {
+  id int [primary key]
+  center_id int
+  vaccine_id int
+  start_date date
+  end_date date
+  agent_id int
+}
+
+Table vaccine.slot {
+  id int [primary key]
+  campaign_id int
+  date date
+  start_time time
+  end_time time
+  max_capacity int [default: 0]
+  reserved int [default: 0, Note: 'validation: reserved <= max_capacity']
+}
+
+enum vaccine.gender {
+  "male"
+  "female"
+}
+
+enum vaccine.blood_group {
+  "A+"
+  "A-"
+  "B+"
+  "B-"
+  "O+"
+  "O-"
+  "AB+"
+  "AB-"
+}
+
+enum vaccine.identity_document_type {
+  "Voter ID"
+  "Passport"
+  "Citizenship Number"
+}
+
+Table vaccine.user {
+  id int [primary key]
+  email email [not null, unique]
+  first_name varchar(20) [not null]
+  middle_name varchar()
+  last_name varchar(20) [not null]
+  date_of_birth date
+  gender vaccine.gender
+  blood_group vaccine.blood_group
+  identity_document_type vaccine.identity_document_type
+  identity_document_number varchar(100)
+  photo varchar(255)
+  date_joined date
+  last_updated datetime [default: `now()`]
+  is_email_verified bool [default: false]
+  is_active bool [default: true]
+  is_staff bool [default: false]
+  is_super_user bool [default: false]
+}
+
+Table vaccine.vaccination {
+  id int [primary key]
+  patient_id int
+  campaign_id int
+  slot_id int
+  date date
+  is_vaccinated bool [default: false]
+  updated_on datetime [default: `now()`]
+  updated_by_id int
+}
+
+Ref: vaccine.center.id < vaccine.storage.center_id [Note: 'One center can have multiple storages for different vaccines']
+Ref: vaccine.center.id < vaccine.campaign.center_id [Note: 'One center can be associated with multiple vaccination campaigns (of different vaccines, or of different periods of the same vaccine']
+Ref: vaccine.vaccine.id < vaccine.storage.vaccine_id [Note: 'One vaccine can have multiple storages (in different centers)']
+Ref: vaccine.vaccine.id < vaccine.campaign.vaccine_id [Note: 'One vaccine can be used in multiple campaigns (in different centers, or in different periods in the same center)']
+Ref: vaccine.campaign.id < vaccine.slot.campaign_id [Note: 'One campaign can span multiple days and have multiple time slots across those days']
+Ref: vaccine.campaign.id < vaccine.vaccination.campaign_id [Note: 'There can be multiple vaccination instances for one campaign']
+Ref: vaccine.slot.id < vaccine.vaccination.slot_id
+Ref: vaccine.user.id < vaccine.campaign.agent_id
+Ref: vaccine.user.id < vaccine.vaccination.patient_id
+Ref: vaccine.user.id < vaccine.vaccination.updated_by_id
