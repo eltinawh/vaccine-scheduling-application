@@ -50,7 +50,9 @@ jobs:
         # Initial SSH connection for setting up the environment
         ssh -tt -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -i key.pem $EC2_USER@$EC2_HOST << 'EOF'
           # Check if the project directory exists
-          if [ ! -d "$PROJECT_DIR" ]; then
+          if [ ! -d "$PROJECT_DIR/.git" ]; then
+              # If not a git repository, clone the repo
+              rm -rf $PROJECT_DIR  # Remove any existing non-git directory
               git clone https://github.com/eltinawh/vaccine-scheduling-application.git $PROJECT_DIR
           else
               cd $PROJECT_DIR
