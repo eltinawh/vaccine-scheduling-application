@@ -1,0 +1,45 @@
+center_name,vaccine_name
+Vaccination House A,Hepatitis B
+Vaccination House A,BCG
+Vaccination House A,Polio (IPV-Ipol)
+Vaccination House A,Rotavirus (RV)
+Vaccination House A,"Diphtheria, Pertussis, Tetanus (DtaP)"
+Vaccination House A,Haemophilus influenzae type b (Hib)
+Vaccination House A,Pneumococcal conjugate (PCV13)
+Vaccination House A,Influenza
+Vaccination House A,"Measles, Mumps, Rubella (MMR)"
+Vaccination House A,Chickenpox (Varicella)
+Vaccination House A,Covid
+Health Clinic B,Hepatitis B
+Health Clinic B,BCG
+Health Clinic B,Polio (IPV-Ipol)
+Health Clinic B,Rotavirus (RV)
+Health Clinic B,"Diphtheria, Pertussis, Tetanus (DtaP)"
+Health Clinic B,Haemophilus influenzae type b (Hib)
+Health Clinic B,Pneumococcal conjugate (PCV13)
+Health Clinic B,Influenza
+Health Clinic B,"Measles, Mumps, Rubella (MMR)"
+Health Clinic B,Chickenpox (Varicella)
+Health Clinic B,Covid
+Hospital ABC,Hepatitis B
+Hospital ABC,BCG
+Hospital ABC,Polio (IPV-Ipol)
+Hospital ABC,Rotavirus (RV)
+Hospital ABC,"Diphtheria, Pertussis, Tetanus (DtaP)"
+Hospital ABC,Haemophilus influenzae type b (Hib)
+Hospital ABC,Pneumococcal conjugate (PCV13)
+Hospital ABC,Influenza
+Hospital ABC,"Measles, Mumps, Rubella (MMR)"
+Hospital ABC,Chickenpox (Varicella)
+Hospital ABC,Covid
+Hospital Prima Health,Hepatitis B
+Hospital Prima Health,BCG
+Hospital Prima Health,Polio (IPV-Ipol)
+Hospital Prima Health,Rotavirus (RV)
+Hospital Prima Health,"Diphtheria, Pertussis, Tetanus (DtaP)"
+Hospital Prima Health,Haemophilus influenzae type b (Hib)
+Hospital Prima Health,Pneumococcal conjugate (PCV13)
+Hospital Prima Health,Influenza
+Hospital Prima Health,"Measles, Mumps, Rubella (MMR)"
+Hospital Prima Health,Chickenpox (Varicella)
+Hospital Prima Health,Covid

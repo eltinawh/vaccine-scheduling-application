@@ -6,6 +6,8 @@ from vaccination.models import Vaccination
 from campaign.forms import CampaignForm, SlotForm
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
+from django.contrib import messages
+from django.core.exceptions import ValidationError
 
 
 class CampaignListView(LoginRequiredMixin, generic.ListView):
@@ -23,7 +25,6 @@ class CampaignDetailView(LoginRequiredMixin, generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["registrations"] = Vaccination.objects.filter(campaign=self.kwargs["pk"]).count()
-        context["campaign_id"] = 1
         return context
     
     
@@ -96,6 +97,21 @@ class CreateSlotView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessage
         kwargs = super().get_form_kwargs()
         kwargs["campaign_id"] = self.kwargs["campaign_id"]
         return kwargs
+    
+    def form_invalid(self, form):
+        """
+        Override form_invalid to handle validation errors gracefully.
+        """
+        # Handle field-specific errors
+        for field, errors in form.errors.items():
+            if field == "__all__":
+                for error in errors:
+                    messages.error(self.request, error)  # Display non-field error directly
+            else:
+                for error in errors:
+                    messages.error(self.request, f"Error in {field}: {error}")
+                
+        return super().form_invalid(form)
     
     
 class UpdateSlotView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, generic.UpdateView):
