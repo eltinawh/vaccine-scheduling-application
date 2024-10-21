@@ -49,6 +49,7 @@ jobs:
 
         # Initial SSH connection for setting up the environment
         ssh -tt -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -i key.pem $EC2_USER@$EC2_HOST << 'EOF'
+        echo $PROJECT_DIR
           # Check if the project directory exists
           if [ ! -d "$PROJECT_DIR/.git" ]; then
               # If not a git repository, clone the repo
