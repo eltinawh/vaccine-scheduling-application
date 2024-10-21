@@ -1,0 +1,45 @@
+center_name,vaccine_name,total_quantity,booked_quantity
+Vaccination House A,Hepatitis B,20,0
+Vaccination House A,BCG,20,0
+Vaccination House A,Polio (IPV-Ipol),20,0
+Vaccination House A,Rotavirus (RV),20,0
+Vaccination House A,"Diphtheria, Pertussis, Tetanus (DtaP)",20,0
+Vaccination House A,Haemophilus influenzae type b (Hib),20,0
+Vaccination House A,Pneumococcal conjugate (PCV13),20,0
+Vaccination House A,Influenza,20,0
+Vaccination House A,"Measles, Mumps, Rubella (MMR)",20,0
+Vaccination House A,Chickenpox (Varicella),20,0
+Vaccination House A,Covid,20,0
+Health Clinic B,Hepatitis B,20,0
+Health Clinic B,BCG,20,0
+Health Clinic B,Polio (IPV-Ipol),20,0
+Health Clinic B,Rotavirus (RV),20,0
+Health Clinic B,"Diphtheria, Pertussis, Tetanus (DtaP)",20,0
+Health Clinic B,Haemophilus influenzae type b (Hib),20,0
+Health Clinic B,Pneumococcal conjugate (PCV13),20,0
+Health Clinic B,Influenza,20,0
+Health Clinic B,"Measles, Mumps, Rubella (MMR)",20,0
+Health Clinic B,Chickenpox (Varicella),20,0
+Health Clinic B,Covid,20,0
+Hospital ABC,Hepatitis B,20,0
+Hospital ABC,BCG,20,0
+Hospital ABC,Polio (IPV-Ipol),20,0
+Hospital ABC,Rotavirus (RV),20,0
+Hospital ABC,"Diphtheria, Pertussis, Tetanus (DtaP)",20,0
+Hospital ABC,Haemophilus influenzae type b (Hib),20,0
+Hospital ABC,Pneumococcal conjugate (PCV13),20,0
+Hospital ABC,Influenza,20,0
+Hospital ABC,"Measles, Mumps, Rubella (MMR)",20,0
+Hospital ABC,Chickenpox (Varicella),20,0
+Hospital ABC,Covid,20,0
+Hospital Prima Health,Hepatitis B,20,0
+Hospital Prima Health,BCG,20,0
+Hospital Prima Health,Polio (IPV-Ipol),20,0
+Hospital Prima Health,Rotavirus (RV),20,0
+Hospital Prima Health,"Diphtheria, Pertussis, Tetanus (DtaP)",20,0
+Hospital Prima Health,Haemophilus influenzae type b (Hib),20,0
+Hospital Prima Health,Pneumococcal conjugate (PCV13),20,0
+Hospital Prima Health,Influenza,20,0
+Hospital Prima Health,"Measles, Mumps, Rubella (MMR)",20,0
+Hospital Prima Health,Chickenpox (Varicella),20,0
+Hospital Prima Health,Covid,20,0

@@ -15,7 +15,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 @login_required
 def center_list(request):
     objects = Center.objects.all().order_by("name")
-    paginator = Paginator(objects, 2)
+    paginator = Paginator(objects, 5)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
     context = {
@@ -97,7 +97,7 @@ class StorageList(LoginRequiredMixin, generic.ListView):
     queryset = Storage.objects.all()
     template_name = "storage/storage-list.html"
     ordering = ["id"]
-    paginate_by = 2
+    paginate_by = 5
     
     def get_queryset(self):
         return super().get_queryset().filter(center_id=self.kwargs["center_id"])
