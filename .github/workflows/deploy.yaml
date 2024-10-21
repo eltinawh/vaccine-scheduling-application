@@ -26,99 +26,48 @@ jobs:
     #     pip install -r vaccine_site/requirements.txt
 
     - name: SSH Deploy to EC2
-      env:
-        EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
-        EC2_HOST: ${{ secrets.EC2_HOST }}
-        EC2_USER: ${{ secrets.EC2_USER }}
-        PROJECT_DIR: ${{ secrets.PROJECT_DIR }}
-        PROJECT_DIR_DEBUG: ${{ vars.PROJECT_DIR_DEBUG }}
-        DEBUG: ${{ secrets.DEBUG }}
-        SECRET_KEY: ${{ secrets.SECRET_KEY }}
-        EMAIL_HOST_USER: ${{ secrets.EMAIL_HOST_USER }}
-        EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
-        DB_NAME: ${{ secrets.DB_NAME }}
-        DB_USER: ${{ secrets.DB_USER }}
-        DB_HOST: ${{ secrets.DB_HOST }}
-        DB_PORT: ${{ secrets.DB_PORT }}
-        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_STORAGE_BUCKET_NAME: ${{ secrets.AWS_STORAGE_BUCKET_NAME }}
-      run: |
-        echo "$EC2_SSH_KEY" > key.pem
-        chmod 600 key.pem
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USER }}
+        key: ${{ secrets.EC2_SSH_KEY }}
+        scripts:
+          cd /home/ubuntu/vaccine-scheduling-application
+          git pull
 
-        # Initial SSH connection for setting up the environment
-        ssh -tt -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -i key.pem $EC2_USER@$EC2_HOST << 'EOF'
-        echo $PROJECT_DIR_DEBUG
-          # Check if the project directory exists
-          if [ ! -d "$PROJECT_DIR_DEBUG/.git" ]; then
-              # If not a git repository, clone the repo
-              rm -rf $PROJECT_DIR_DEBUG  # Remove any existing non-git directory
-              git clone https://github.com/eltinawh/vaccine-scheduling-application.git $PROJECT_DIR
-          else
-              cd $PROJECT_DIR_DEBUG
-              git pull origin main
-          fi
+          echo "DEBUG=$DEBUG" >> vaccine_site/.env
+          echo "SECRET_KEY=$SECRET_KEY" >> vaccine_site/.env
+          echo "EMAIL_HOST_USER=$EMAIL_HOST_USER" >> vaccine_site/.env
+          echo "EMAIL_HOST_PASSWORD=$EMAIL_HOST_PASSWORD" >> vaccine_site/.env
+          echo "DB_NAME=$DB_NAME" >> vaccine_site/.env
+          echo "DB_USER=$DB_USER" >> vaccine_site/.env
+          echo "DB_HOST=$DB_HOST" >> vaccine_site/.env
+          echo "DB_PORT=$DB_PORT" >> vaccine_site/.env
+          echo "DB_PASSWORD=$DB_PASSWORD" >> vaccine_site/.env
+          echo "AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID" >> vaccine_site/.env
+          echo "AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY" >> vaccine_site/.env
+          echo "AWS_STORAGE_BUCKET_NAME=$AWS_STORAGE_BUCKET_NAME" >> vaccine_site/.env
 
-          cd $PROJECT_DIR_DEBUG/vaccine_site
-
-          # Create or update the .env file with secrets
-          echo "DEBUG=$DEBUG" >> .env
-          echo "SECRET_KEY=$SECRET_KEY" >> .env
-          echo "EMAIL_HOST_USER=$EMAIL_HOST_USER" >> .env
-          echo "EMAIL_HOST_PASSWORD=$EMAIL_HOST_PASSWORD" >> .env
-          echo "DB_NAME=$DB_NAME" >> .env
-          echo "DB_USER=$DB_USER" >> .env
-          echo "DB_HOST=$DB_HOST" >> .env
-          echo "DB_PORT=$DB_PORT" >> .env
-          echo "DB_PASSWORD=$DB_PASSWORD" >> .env
-          echo "AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID" >> .env
-          echo "AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY" >> .env
-          echo "AWS_STORAGE_BUCKET_NAME=$AWS_STORAGE_BUCKET_NAME" >> .env
-        EOF
-          
-        # Second SSH connection for virtual environment setup
-        ssh -tt -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -i key.pem $EC2_USER@$EC2_HOST << 'EOF'
-          cd $PROJECT_DIR/vaccine_site
-          # Set up virtual environment and install dependencies
-          sudo apt update
           sudo apt install -y python3.12-venv
           python3 -m venv venv
           source venv/bin/activate
-          pip install -r requirements.txt
+          pip install -r vaccine_site/requirements.txt
           pip install gunicorn
-        EOF
-
-        # Third SSH connection for Gunicorn and Nginx setup
-        ssh -tt -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -i key.pem $EC2_USER@$EC2_HOST << 'EOF'
-          cd $PROJECT_DIR
-
-          # Setup Gunicorn
+          
           sudo cp deploy_config/gunicorn.service /etc/systemd/system/gunicorn.service
           sudo cp deploy_config/gunicorn.socket /etc/systemd/system/gunicorn.socket
           sudo systemctl daemon-reload
           sudo systemctl enable gunicorn.socket
           sudo systemctl start gunicorn.socket
 
-          # Setup NginxEOF
           sudo apt install -y nginx
           sudo rm /etc/nginx/sites-available/default
           sudo rm /etc/nginx/sites-enabled/default
           sudo cp deploy_config/nginx.conf /etc/nginx/sites-available/django
           sudo ln -sf /etc/nginx/sites-available/your_project_name /etc/nginx/sites-enabled
-          sudo nginx -t  # Test Nginx config
+          sudo nginx -t
           sudo systemctl restart nginx
-        EOF
 
-        # Last SSH connection for migration and collectstatic
-        ssh -tt -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -i key.pem $EC2_USER@$EC2_HOST << 'EOF'
-          cd $PROJECT_DIR/vaccine_site
-          source venv/bin/activate
-          # Apply database migrations and collect static files
           python manage.py migrate
           python manage.py collectstatic --noinput
-
-          # Restart Gunicorn service
           sudo systemctl restart gunicorn
-        EOF
