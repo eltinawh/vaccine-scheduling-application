@@ -1,0 +1,101 @@
+name: Django CI/CD
+
+on:
+  push:
+    branches:
+      - main  # Trigger on push to main branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.12'  # Replace with your Python version
+
+    # - name: Install dependencies
+    #   run: |
+    #     sudo apt install python3.12-venv
+    #     python -m venv env
+    #     . env/bin/activate
+    #     pip install -r vaccine_site/requirements.txt
+
+    - name: SSH Deploy to EC2
+      env:
+        EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
+        EC2_HOST: ${{ secrets.EC2_HOST }}
+        EC2_USER: ${{ secrets.EC2_USER }}
+        PROJECT_DIR: ${{ secrets.PROJECT_DIR }}
+        DEBUG: ${{ secrets.DEBUG }}
+        SECRET_KEY: ${{ secrets.SECRET_KEY }}
+        EMAIL_HOST_USER: ${{ secrets.EMAIL_HOST_USER }}
+        EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
+        DB_NAME: ${{ secrets.DB_NAME }}
+        DB_USER: ${{ secrets.DB_USER }}
+        DB_HOST: ${{ secrets.DB_HOST }}
+        DB_PORT: ${{ secrets.DB_PORT }}
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_STORAGE_BUCKET_NAME: ${{ secrets.AWS_STORAGE_BUCKET_NAME }}
+      run: |
+        echo "$EC2_SSH_KEY" > key.pem
+        chmod 600 key.pem
+        ssh -o StrictHostKeyChecking=no -i key.pem $EC2_USER@$EC2_HOST << 'EOF'
+
+          # Pull latest code and set up the environment
+          git pull origin main
+
+          cd $PROJECT_DIR/vaccine_site
+
+          # Create or update the .env file with secrets
+          echo "DEBUG=$DEBUG" > .env
+          echo "SECRET_KEY=$SECRET_KEY" > .env
+          echo "EMAIL_HOST_USER=$EMAIL_HOST_USER" > .env
+          echo "EMAIL_HOST_PASSWORD=$EMAIL_HOST_PASSWORD" > .env
+          echo "DB_NAME=$DB_NAME" > .env
+          echo "DB_USER=$DB_USER" > .env
+          echo "DB_HOST=$DB_HOST" > .env
+          echo "DB_PORT=$DB_PORT" > .env
+          echo "DB_PASSWORD=$DB_PASSWORD" > .env
+          echo "AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID" > .env
+          echo "AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY" > .env
+          echo "AWS_STORAGE_BUCKET_NAME=$AWS_STORAGE_BUCKET_NAME" > .env
+          
+          # Set up virtual environment and install dependencies
+          sudo apt install -y python3.12-venv
+          python3 -m venv venv
+          source venv/bin/activate
+          pip install -r requirements.txt
+          pip install gunicorn
+
+          cd $PROJECT_DIR
+
+          # Setup Gunicorn
+          sudo cp deploy_config/gunicorn.service /etc/systemd/system/gunicorn.service
+          sudo cp deploy_config/gunicorn.socket /etc/systemd/system/gunicorn.socket
+          sudo systemctl daemon-reload
+          sudo systemctl enable gunicorn.socket
+          sudo systemctl start gunicorn.socket
+
+          # Setup Nginx
+          sudo apt install -y nginx
+          sudo rm /etc/nginx/sites-available/default
+          sudo rm /etc/nginx/sites-enabled/default
+          sudo cp deploy_config/nginx.conf /etc/nginx/sites-available/django
+          sudo ln -sf /etc/nginx/sites-available/your_project_name /etc/nginx/sites-enabled
+          sudo nginx -t  # Test Nginx config
+          sudo systemctl restart nginx
+
+          # Apply database migrations and collect static files
+          python manage.py migrate
+          python manage.py collectstatic --noinput
+
+          # Restart Gunicorn service
+          sudo systemctl restart gunicorn
+        EOF
