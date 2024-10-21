@@ -35,19 +35,21 @@ jobs:
           cd /home/ubuntu/vaccine-scheduling-application
           git pull
 
-          echo "DEBUG=$DEBUG" >> vaccine_site/.env
-          echo "SECRET_KEY=$SECRET_KEY" >> vaccine_site/.env
-          echo "EMAIL_HOST_USER=$EMAIL_HOST_USER" >> vaccine_site/.env
-          echo "EMAIL_HOST_PASSWORD=$EMAIL_HOST_PASSWORD" >> vaccine_site/.env
-          echo "DB_NAME=$DB_NAME" >> vaccine_site/.env
-          echo "DB_USER=$DB_USER" >> vaccine_site/.env
-          echo "DB_HOST=$DB_HOST" >> vaccine_site/.env
-          echo "DB_PORT=$DB_PORT" >> vaccine_site/.env
-          echo "DB_PASSWORD=$DB_PASSWORD" >> vaccine_site/.env
-          echo "AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID" >> vaccine_site/.env
-          echo "AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY" >> vaccine_site/.env
-          echo "AWS_STORAGE_BUCKET_NAME=$AWS_STORAGE_BUCKET_NAME" >> vaccine_site/.env
+          cd vaccine_site
+          sudo echo "DEBUG=$DEBUG" >> .env
+          sudo echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> .env
+          sudo echo "EMAIL_HOST_USER=${{ secrets.EMAIL_HOST_USER }}" >> .env
+          sudo echo "EMAIL_HOST_PASSWORD=${{ secrets.EMAIL_HOST_PASSWORD }}" >> .env
+          sudo echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env
+          sudo echo "DB_USER=${{ secrets.DB_USER }}" >> .env
+          sudo echo "DB_HOST=${{ secrets.DB_HOST }}" >> .env
+          sudo echo "DB_PORT=${{ secrets.DB_PORT }}" >> .env
+          sudo echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
+          sudo echo "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}" >> .env
+          sudo echo "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> .env
+          sudo echo "AWS_STORAGE_BUCKET_NAME=${{ secrets.AWS_STORAGE_BUCKET_NAME }}" >> .env
 
+          cd /home/ubuntu/vaccine-scheduling-application
           sudo apt install -y python3.12-venv
           python3 -m venv venv
           source venv/bin/activate
@@ -68,6 +70,7 @@ jobs:
           sudo nginx -t
           sudo systemctl restart nginx
 
+          cd vaccine_site
           python manage.py migrate
           python manage.py collectstatic --noinput
           sudo systemctl restart gunicorn
