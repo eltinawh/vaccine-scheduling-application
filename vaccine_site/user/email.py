@@ -11,7 +11,7 @@ User = get_user_model()
 def send_email_verification(request, id):
     user = User.objects.get(pk=id)
     current_site = get_current_site(request)
-    subject = "Request for Email Verification"
+    subject = "Book My Vaccine - Request for Email Verification"
     message = render_to_string(
         template_name="user/email-verify.html",
         context = {
