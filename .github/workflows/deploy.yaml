@@ -46,10 +46,15 @@ jobs:
       run: |
         echo "$EC2_SSH_KEY" > key.pem
         chmod 600 key.pem
-        ssh -o StrictHostKeyChecking=no -i key.pem $EC2_USER@$EC2_HOST << 'EOF'
+        ssh -tt -o StrictHostKeyChecking=no -i key.pem $EC2_USER@$EC2_HOST << 'EOF'
 
-          # Pull latest code and set up the environment
-          git pull origin main
+          # Check if the project directory exists
+          if [ ! -d "$PROJECT_DIR" ]; then
+              git clone https://github.com/eltinawh/vaccine-scheduling-application.git $PROJECT_DIR
+          else
+              cd $PROJECT_DIR
+              git pull origin main
+          fi
 
           cd $PROJECT_DIR/vaccine_site
 
