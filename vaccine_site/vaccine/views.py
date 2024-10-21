@@ -14,7 +14,7 @@ from django.utils.decorators import method_decorator
 class VaccineListView(View):
     def get(self, request):
         vaccine_list = Vaccine.objects.all().order_by("name")
-        paginator = Paginator(vaccine_list, 2)
+        paginator = Paginator(vaccine_list, 5)
         page_number = request.GET.get("page")
         page_obj = paginator.get_page(page_number)
         context = {

@@ -1,0 +1,58 @@
+name,description,number_of_doses,interval,storage_temperature,minimum_age
+Hepatitis B,"Hepatitis B vaccine is an immunization that helps protect against the Hepatitis B virus (HBV), which primarily affects the liver. Hepatitis B is a serious infection that can lead to chronic liver disease, cirrhosis, liver cancer, or even death. The vaccine works by stimulating the body's immune system to produce antibodies against HBV, providing long-term protection without causing the disease.
+
+The vaccine is typically given in a series of three or four doses over a six-month period. It is recommended for all infants at birth, as well as adults who are at higher risk of infection, such as healthcare workers, people with chronic liver disease, or those with high exposure to blood or bodily fluids.
+
+Hepatitis B vaccines are safe, effective, and a crucial part of preventing the spread of Hepatitis B globally. The vaccines are available in both monovalent forms (targeting only HBV) and in combination with other vaccines (like Hepatitis A or DTP).",2,120,5,0
+BCG,,1,,8,0
+Polio (IPV-Ipol),"The Bacillus Calmette-Guérin (BCG) vaccine is used to prevent tuberculosis (TB), a bacterial infection that primarily affects the lungs but can also impact other parts of the body. The vaccine is made from a weakened strain of Mycobacterium bovis, which is closely related to the bacteria that cause TB, and it helps the immune system recognize and fight off the infection.
+
+BCG is mainly given to infants and young children in countries where TB is common. It offers protection against severe forms of tuberculosis, such as TB meningitis and miliary TB, especially in children. Although its effectiveness against pulmonary TB (the most common form) in adults is variable, it remains an important tool in global TB control efforts.
+
+The vaccine is administered as a single intradermal injection, usually in the upper arm, and may leave a small scar at the injection site. It is considered safe, with mild side effects like redness or swelling being common.",3,60,5,0
+Rotavirus (RV),"The rotavirus vaccine is designed to protect against rotavirus infection, a highly contagious virus that causes severe diarrhea, vomiting, and dehydration, especially in infants and young children. Rotavirus is a leading cause of gastroenteritis worldwide, and in severe cases, it can lead to hospitalization or even death due to dehydration.
+
+The vaccine is administered orally and is usually given in two or three doses, starting at around 2 months of age. It helps the body build immunity to the virus by exposing it to a weakened form of rotavirus, which does not cause illness but triggers an immune response.
+
+The rotavirus vaccine is highly effective at preventing severe diarrhea caused by the virus and has significantly reduced hospitalizations and deaths related to rotavirus infection. It is considered safe, with mild side effects like irritability, mild diarrhea, or fever being the most common.",3,60,8,0
+"Diphtheria, Pertussis, Tetanus (DtaP)","The DTaP vaccine provides protection against three serious bacterial infections: diphtheria, pertussis (whooping cough), and tetanus. It is a combination vaccine that helps prevent these diseases, which can cause life-threatening complications, especially in children.
+
+- Diphtheria is a bacterial infection that affects the throat and airways, potentially leading to breathing difficulties, heart failure, or paralysis.
+- Pertussis (whooping cough) is a highly contagious respiratory infection that causes severe coughing fits, which can be dangerous for infants and young children.
+- Tetanus affects the nervous system, causing muscle stiffness and spasms, often referred to as ""lockjaw,"" and can occur after bacteria enter the body through cuts or wounds.
+
+The DTaP vaccine is usually given in five doses, starting in infancy and continuing until about 6 years of age. It is considered safe, with common side effects including redness or swelling at the injection site, mild fever, or fussiness. The vaccine is highly effective in preventing these diseases and is a key part of routine childhood immunization programs.",3,60,8,0
+Haemophilus influenzae type b (Hib),"The Haemophilus influenzae type b (Hib) vaccine protects against infections caused by the Hib bacteria, which can lead to severe illnesses, particularly in young children. Hib bacteria can cause life-threatening conditions such as meningitis (infection of the lining around the brain and spinal cord), pneumonia, epiglottitis (swelling in the throat), and bloodstream infections.
+
+The vaccine is usually given to infants starting at 2 months of age in a series of two to four doses, depending on the specific vaccine formulation. It works by stimulating the immune system to recognize and fight off the Hib bacteria if exposed in the future.
+
+Hib infections were once a leading cause of bacterial meningitis and other serious illnesses in children, but widespread use of the vaccine has drastically reduced these cases. The vaccine is safe, with mild side effects such as redness, swelling at the injection site, or mild fever being common. The Hib vaccine is an essential part of childhood immunization schedules to prevent dangerous bacterial infections.",3,60,8,0
+Pneumococcal conjugate (PCV13),"The pneumococcal conjugate vaccine (PCV13) protects against 13 types of pneumococcal bacteria, which can cause serious infections such as pneumonia, meningitis, and bloodstream infections (septicemia). These infections are particularly dangerous for young children, older adults, and people with weakened immune systems.
+
+PCV13 is typically given to infants in a series of four doses, starting at 2 months of age, but it can also be recommended for older children and adults at higher risk of pneumococcal disease. The vaccine works by helping the immune system recognize and fight off the 13 strains of bacteria covered by the vaccine, preventing both mild and severe pneumococcal diseases.
+
+Widespread use of PCV13 has significantly reduced the incidence of pneumococcal infections, especially in young children. The vaccine is safe and generally well-tolerated, with common side effects including mild swelling or redness at the injection site, mild fever, or irritability. PCV13 plays a critical role in preventing serious bacterial infections and their complications.",3,60,5,0
+Influenza,"The influenza (flu) vaccine is designed to protect against the influenza virus, which causes seasonal flu outbreaks each year. Influenza is a contagious respiratory illness that can range from mild to severe and may lead to complications such as pneumonia, hospitalization, or even death, especially in vulnerable groups like young children, the elderly, and individuals with weakened immune systems.
+
+The flu vaccine is updated annually to target the most common strains expected to circulate during the flu season. It is available in two forms: an injectable shot and a nasal spray. It is recommended for most people starting at 6 months of age, with special emphasis on high-risk groups and healthcare workers.
+
+The vaccine works by triggering the immune system to produce antibodies that recognize and fight the flu virus if exposed. While the flu vaccine may not prevent all cases of flu, it significantly reduces the severity of illness and the risk of complications. The vaccine is safe, with mild side effects like soreness at the injection site or mild fever being the most common.",5,365,2,0
+"Measles, Mumps, Rubella (MMR)","The Measles, Mumps, Rubella (MMR) vaccine is a combination vaccine that protects against three highly contagious viral diseases:
+
+- Measles causes fever, cough, runny nose, and a rash, and can lead to serious complications such as pneumonia, brain swelling (encephalitis), and even death.
+- Mumps leads to swollen salivary glands, fever, and muscle aches, and can result in complications like hearing loss, meningitis, and inflammation of the testes or ovaries.
+- Rubella (German measles) causes mild fever and rash, but in pregnant women, it can lead to severe birth defects or miscarriage.
+
+The MMR vaccine is usually given in two doses, the first at around 12-15 months of age and the second between 4-6 years of age. It works by helping the immune system produce antibodies to recognize and fight these viruses if exposed in the future.
+
+The vaccine is highly effective, providing long-lasting protection against these diseases. It is generally safe, with side effects like mild fever, rash, or swelling at the injection site being common. The MMR vaccine plays a crucial role in preventing outbreaks and maintaining public health by ensuring widespread immunity to these serious diseases.",2,1460,5,1
+Chickenpox (Varicella),"The Chickenpox (Varicella) vaccine protects against the varicella-zoster virus, which causes chickenpox, a highly contagious disease characterized by an itchy rash, fever, and fatigue. Chickenpox is usually mild in children but can lead to more serious complications, especially in adults, pregnant women, and individuals with weakened immune systems. Complications can include bacterial infections, pneumonia, or encephalitis (swelling of the brain).
+
+The vaccine is typically given in two doses, with the first dose administered at 12-15 months of age and the second between 4-6 years of age. For older children, teens, and adults who have never had chickenpox or the vaccine, the two doses can also be administered later in life.
+
+The varicella vaccine is highly effective at preventing chickenpox and, even in cases where vaccinated individuals do contract the virus, the disease is usually much milder with fewer blisters and lower fever. The vaccine is generally safe, with common side effects including soreness at the injection site or mild fever. It plays a crucial role in preventing outbreaks and reducing the severity of the disease.",2,1095,5,1
+Covid,"The COVID-19 vaccine protects against the coronavirus SARS-CoV-2, the virus responsible for causing COVID-19. COVID-19 can range from mild respiratory symptoms to severe illness, leading to hospitalization or death, especially in older adults and individuals with underlying health conditions. The vaccine helps the immune system recognize and fight the virus if exposed, reducing the risk of infection and severe outcomes.
+
+Several types of COVID-19 vaccines have been developed, including mRNA vaccines (such as Pfizer-BioNTech and Moderna), viral vector vaccines (such as Johnson & Johnson), and protein-based vaccines. Most COVID-19 vaccines are administered in a series of two doses, though some (like Johnson & Johnson) are single-dose vaccines. Booster doses are also recommended to enhance protection, particularly with emerging variants.
+
+The vaccines have been proven to be highly effective in reducing the severity of illness, preventing hospitalizations, and saving lives. Side effects are generally mild and temporary, including soreness at the injection site, fatigue, headache, or mild fever. COVID-19 vaccines are a critical tool in controlling the spread of the virus and protecting public health globally.",2,30,8,12
