@@ -86,10 +86,10 @@ cd vaccine-scheduling-application
 python3 -m venv env
 
 # Activate the virtual environment (Linux/MacOS)
-source venv/bin/activate
+source env/bin/activate
 
 # Activate the virtual environment (Windows)
-venv\Scripts\activate
+env\Scripts\activate
 ```
 
 #### 3. Install dependencies
