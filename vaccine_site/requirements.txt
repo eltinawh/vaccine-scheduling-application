@@ -8,7 +8,7 @@ django-storages==1.14.4
 jmespath==1.0.1
 pillow==10.4.0
 psycopg2==2.9.9
-psycopg2-binary==2.9.9
+# psycopg2-binary==2.9.9
 python-dateutil==2.9.0.post0
 reportlab==4.2.4
 s3transfer==0.10.3
