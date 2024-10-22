@@ -32,10 +32,17 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            cd /home/ubuntu/vaccine-scheduling-application
-            git pull
+            if [ ! -d "${{ secrets.PROJECT_DIR }}/.git" ]; then
+                # If not a git repository, clone the repo
+                rm -rf ${{ secrets.PROJECT_DIR }}  # Remove any existing non-git directory
+                git clone https://github.com/eltinawh/vaccine-scheduling-application.git ${{ secrets.PROJECT_DIR }}
+            else
+                cd ${{ secrets.PROJECT_DIR }}
+                git pull origin main
+            fi
 
             cd vaccine_site
+            sudo > .env
             echo "DEBUG=${{ secrets.DEBUG }}" | sudo tee -a .env
             echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" | sudo tee -a .env
             echo "EMAIL_HOST_USER=${{ secrets.EMAIL_HOST_USER }}" | sudo tee -a .env
@@ -49,7 +56,7 @@ jobs:
             echo "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" | sudo tee -a .env
             echo "AWS_STORAGE_BUCKET_NAME=${{ secrets.AWS_STORAGE_BUCKET_NAME }}" | sudo tee -a .env
 
-            cd /home/ubuntu/vaccine-scheduling-application
+            cd ${{ secrets.PROJECT_DIR }}
             sudo apt install -y libpq-dev python3.12-venv
             python3 -m venv venv
             source venv/bin/activate
@@ -63,8 +70,12 @@ jobs:
             sudo systemctl start gunicorn.socket
             
             sudo apt install -y nginx
-            sudo rm /etc/nginx/sites-available/default
-            sudo rm /etc/nginx/sites-enabled/default
+            if [ -f "/etc/nginx/sites-available/default" ]; then
+                sudo rm /etc/nginx/sites-available/default
+            fi
+            if [ -f "/etc/nginx/sites-enabled/default" ]; then
+                sudo rm /etc/nginx/sites-enabled/default
+            fi
             sudo cp deploy_config/nginx.conf /etc/nginx/sites-available/django
             sudo ln -sf /etc/nginx/sites-available/django /etc/nginx/sites-enabled
             sudo nginx -t
